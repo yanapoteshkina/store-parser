@@ -4,9 +4,8 @@ import aiohttp
 from bs4 import BeautifulSoup as BS
 from fake_useragent import UserAgent
 
-from pyshorteners import Shortener
 
-BASE_URL = "https://arbuz.kz/ru/almaty/catalog/cat/225177-frukty#/"
+BASE_URL = "https://arbuz.kz/ru/almaty/catalog/cat/225172-kofe_i_kakao#/"
 HEADERS = {"User-Agent": UserAgent().random}
 async def main():
     async with aiohttp.ClientSession() as session:
@@ -17,15 +16,12 @@ async def main():
             items = soup.find_all("article", {"class": "product-item product-card"})
 
             for item in items:
-                price = item.find("b")
+                price = item.find("b").text.strip()
                 title = item.find("a", {"class": "product-card__title"})
                 link = title.get("href")
 
-                # short_price = Shortener().tinyurl.short(f"https://arbuz.kz{link}")
-                # print(short_price)
 
-                #
-                # print(f"TITLE: {title.text.strip()} | {price} | {short_price}")
+                print(f"Название: {title.text.strip()} \nЦена: {price} \nИсточник: https://arbuz.kz{link} \n \n \n")
 
 
 
